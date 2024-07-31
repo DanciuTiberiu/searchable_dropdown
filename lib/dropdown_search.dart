@@ -162,6 +162,8 @@ class DropdownSearch<T> extends StatefulWidget {
   ///if the callBack return FALSE, the opening of the popup will be cancelled
   final BeforePopupOpeningMultiSelection<T>? onBeforePopupOpeningMultiSelection;
 
+  final FocusNode? dropdownFocusNode;
+
   DropdownSearch({
     Key? key,
     this.onSaved,
@@ -181,6 +183,7 @@ class DropdownSearch<T> extends StatefulWidget {
     this.compareFn,
     this.onBeforeChange,
     this.onBeforePopupOpening,
+    this.dropdownFocusNode,
     PopupProps<T> popupProps = const PopupProps.menu(),
   })  : assert(
           !popupProps.showSelectedItems || T == String || compareFn != null,
@@ -210,6 +213,7 @@ class DropdownSearch<T> extends StatefulWidget {
     this.compareFn,
     this.selectedItems = const [],
     this.popupProps = const PopupPropsMultiSelection.menu(),
+    this.dropdownFocusNode,
     FormFieldSetter<List<T>>? onSaved,
     ValueChanged<List<T>>? onChanged,
     BeforeChangeMultiSelection<T>? onBeforeChange,
@@ -280,6 +284,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
         return IgnorePointer(
           ignoring: !widget.enabled,
           child: InkWell(
+            focusNode: widget.dropdownFocusNode,
             onTap: () => _selectSearchMode(),
             child: _formField(),
           ),
