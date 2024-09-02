@@ -746,6 +746,11 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
     _popupStateKey.currentState?.deselectItems(itemsToDeselect);
   }
 
+  ///Handle focus programmatically
+  void dropdownHandleFocus(bool focus) {
+    _handleFocus(focus);
+  }
+
   ///Deselect ALL items programmatically on the popup of selection
   void popupDeselectAllItems() {
     _popupStateKey.currentState?.deselectAllItems();
