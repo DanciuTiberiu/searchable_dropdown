@@ -642,7 +642,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
   ///same thing for clear focus,
   void _handleFocus(bool isFocused) {
     if (isFocused && !_isFocused.value) {
-      FocusScope.of(context).unfocus();
+      // FocusScope.of(context).unfocus();
       _isFocused.value = true;
     } else if (!isFocused && _isFocused.value) _isFocused.value = false;
   }
