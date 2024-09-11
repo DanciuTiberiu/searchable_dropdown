@@ -281,14 +281,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
     return ValueListenableBuilder<List<T?>>(
       valueListenable: _selectedItemsNotifier,
       builder: (context, data, wt) {
-        return IgnorePointer(
-          ignoring: !widget.enabled,
-          child: InkWell(
-            focusNode: widget.dropdownFocusNode,
-            onTap: () => _selectSearchMode(),
-            child: _formField(),
-          ),
-        );
+        return _formField();
       },
     );
   }
@@ -695,7 +688,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
       if (await widget.onBeforePopupOpeningMultiSelection!(getSelectedItems) == false) return;
     }
 
-    _handleFocus(true);
+    // _handleFocus(true);
     if (widget.popupProps.mode == Mode.MENU) {
       await _openMenu();
     } else if (widget.popupProps.mode == Mode.MODAL_BOTTOM_SHEET) {
@@ -707,7 +700,7 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
     }
     //dismiss either by selecting items OR clicking outside the popup
     widget.popupProps.onDismissed?.call();
-    _handleFocus(false);
+    // _handleFocus(false);
   }
 
   ///Change selected Value; this function is public USED to change the selected
