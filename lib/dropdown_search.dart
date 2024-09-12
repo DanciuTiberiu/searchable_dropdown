@@ -388,17 +388,20 @@ class DropdownSearchState<T> extends State<DropdownSearch<T>> {
         return ValueListenableBuilder<bool>(
             valueListenable: _isFocused,
             builder: (context, isFocused, w) {
-              return InputDecorator(
-                baseStyle: widget.dropdownDecoratorProps.baseStyle,
-                textAlign: widget.dropdownDecoratorProps.textAlign,
-                textAlignVertical:
-                    widget.dropdownDecoratorProps.textAlignVertical,
-                isEmpty:
-                    getSelectedItem == null && widget.dropdownBuilder == null,
-                isFocused: isFocused,
-                decoration: _manageDropdownDecoration(state),
-                child: _defaultSelectedItemWidget(),
-              );
+              return widget.dropdownDecoratorProps.dropdownSearchDecoration !=
+                      null
+                  ? InputDecorator(
+                      baseStyle: widget.dropdownDecoratorProps.baseStyle,
+                      textAlign: widget.dropdownDecoratorProps.textAlign,
+                      textAlignVertical:
+                          widget.dropdownDecoratorProps.textAlignVertical,
+                      isEmpty: getSelectedItem == null &&
+                          widget.dropdownBuilder == null,
+                      isFocused: isFocused,
+                      decoration: _manageDropdownDecoration(state),
+                      child: _defaultSelectedItemWidget(),
+                    )
+                  : _defaultSelectedItemWidget();
             });
       },
     );
