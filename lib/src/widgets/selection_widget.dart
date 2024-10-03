@@ -172,7 +172,8 @@ class SelectionWidgetState<T> extends State<SelectionWidget<T>> {
                               widget.popupProps.scrollbarProps.trackColor,
                           trackRadius:
                               widget.popupProps.scrollbarProps.trackRadius,
-                          child: SingleChildScrollView(
+                          child: ListView.builder(
+                            shrinkWrap: true,
                             controller:
                                 widget.popupProps.listViewProps.controller ??
                                     scrollController,
@@ -190,17 +191,13 @@ class SelectionWidgetState<T> extends State<SelectionWidget<T>> {
                                 widget.popupProps.listViewProps.restorationId,
                             clipBehavior:
                                 widget.popupProps.listViewProps.clipBehavior,
-                            child: Column(
-                              children:
-                                  List.generate(snapshot.data!.length, (index) {
-                                {
-                                  var item = snapshot.data![index];
-                                  return widget.isMultiSelectionMode
-                                      ? _itemWidgetMultiSelection(item)
-                                      : _itemWidgetSingleSelection(item);
-                                }
-                              }),
-                            ),
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              var item = snapshot.data![index];
+                              return widget.isMultiSelectionMode
+                                  ? _itemWidgetMultiSelection(item)
+                                  : _itemWidgetSingleSelection(item);
+                            },
                           ),
                         );
                       },
