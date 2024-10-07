@@ -195,8 +195,10 @@ class SelectionWidgetState<T> extends State<SelectionWidget<T>> {
                             itemBuilder: (BuildContext context, int index) {
                               var item = snapshot.data![index];
                               return widget.isMultiSelectionMode
-                                  ? _itemWidgetMultiSelection(item)
-                                  : _itemWidgetSingleSelection(item);
+                                  ? _itemWidgetMultiSelection(
+                                      item, snapshot.data?.length ?? 0)
+                                  : _itemWidgetSingleSelection(
+                                      item, snapshot.data?.length ?? 0);
                             },
                           ),
                         );
@@ -396,13 +398,13 @@ class SelectionWidgetState<T> extends State<SelectionWidget<T>> {
     _itemsStream.addError(error, stackTrace);
   }
 
-  Widget _itemWidgetSingleSelection(T item) {
+  Widget _itemWidgetSingleSelection(T item, int itemsLength) {
     if (widget.popupProps.itemBuilder != null) {
       var w = widget.popupProps.itemBuilder!(
-        context,
-        item,
-        !widget.popupProps.showSelectedItems ? false : _isSelectedItem(item),
-      );
+          context,
+          item,
+          !widget.popupProps.showSelectedItems ? false : _isSelectedItem(item),
+          itemsLength);
 
       if (widget.popupProps.interceptCallBacks)
         return w;
@@ -424,15 +426,17 @@ class SelectionWidgetState<T> extends State<SelectionWidget<T>> {
     }
   }
 
-  Widget _itemWidgetMultiSelection(T item) {
+  Widget _itemWidgetMultiSelection(T item, int itemsLength) {
     if (widget.popupProps.selectionWidget != null)
       return CheckBoxWidget(
         checkBox: (cnt, checked) {
-          return widget.popupProps.selectionWidget!(context, item, checked);
+          return widget.popupProps.selectionWidget!(
+              context, item, checked, itemsLength);
         },
         interceptCallBacks: widget.popupProps.interceptCallBacks,
         textDirection: widget.popupProps.textDirection,
-        layout: (context, isChecked) => _itemWidgetSingleSelection(item),
+        layout: (context, isChecked) =>
+            _itemWidgetSingleSelection(item, itemsLength),
         isChecked: _isSelectedItem(item),
         isDisabled: _isDisabled(item),
         onChanged: (c) => _handleSelectedItem(item),
@@ -441,7 +445,8 @@ class SelectionWidgetState<T> extends State<SelectionWidget<T>> {
       return CheckBoxWidget(
         textDirection: widget.popupProps.textDirection,
         interceptCallBacks: widget.popupProps.interceptCallBacks,
-        layout: (context, isChecked) => _itemWidgetSingleSelection(item),
+        layout: (context, isChecked) =>
+            _itemWidgetSingleSelection(item, itemsLength),
         isChecked: _isSelectedItem(item),
         isDisabled: _isDisabled(item),
         onChanged: (c) => _handleSelectedItem(item),

@@ -39,6 +39,7 @@ typedef Widget DropdownSearchPopupItemBuilder<T>(
   BuildContext context,
   T item,
   bool isSelected,
+  int itemsLength,
 );
 typedef bool DropdownSearchPopupItemEnabled<T>(T item);
 typedef Widget ErrorBuilder<T>(
