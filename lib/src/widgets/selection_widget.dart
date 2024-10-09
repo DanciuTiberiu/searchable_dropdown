@@ -172,34 +172,38 @@ class SelectionWidgetState<T> extends State<SelectionWidget<T>> {
                               widget.popupProps.scrollbarProps.trackColor,
                           trackRadius:
                               widget.popupProps.scrollbarProps.trackRadius,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            controller:
-                                widget.popupProps.listViewProps.controller ??
-                                    scrollController,
-                            padding: widget.popupProps.listViewProps.padding,
-                            scrollDirection:
-                                widget.popupProps.listViewProps.scrollDirection,
-                            reverse: widget.popupProps.listViewProps.reverse,
-                            primary: widget.popupProps.listViewProps.primary,
-                            physics: widget.popupProps.listViewProps.physics,
-                            dragStartBehavior: widget
-                                .popupProps.listViewProps.dragStartBehavior,
-                            keyboardDismissBehavior: widget.popupProps
-                                .listViewProps.keyboardDismissBehavior,
-                            restorationId:
-                                widget.popupProps.listViewProps.restorationId,
-                            clipBehavior:
-                                widget.popupProps.listViewProps.clipBehavior,
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              var item = snapshot.data![index];
-                              return widget.isMultiSelectionMode
-                                  ? _itemWidgetMultiSelection(
-                                      item, snapshot.data?.length ?? 0)
-                                  : _itemWidgetSingleSelection(
-                                      item, snapshot.data?.length ?? 0);
-                            },
+                          child: ScrollConfiguration(
+                            behavior: ScrollConfiguration.of(context)
+                                .copyWith(scrollbars: false),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              controller:
+                                  widget.popupProps.listViewProps.controller ??
+                                      scrollController,
+                              padding: widget.popupProps.listViewProps.padding,
+                              scrollDirection: widget
+                                  .popupProps.listViewProps.scrollDirection,
+                              reverse: widget.popupProps.listViewProps.reverse,
+                              primary: widget.popupProps.listViewProps.primary,
+                              physics: widget.popupProps.listViewProps.physics,
+                              dragStartBehavior: widget
+                                  .popupProps.listViewProps.dragStartBehavior,
+                              keyboardDismissBehavior: widget.popupProps
+                                  .listViewProps.keyboardDismissBehavior,
+                              restorationId:
+                                  widget.popupProps.listViewProps.restorationId,
+                              clipBehavior:
+                                  widget.popupProps.listViewProps.clipBehavior,
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                var item = snapshot.data![index];
+                                return widget.isMultiSelectionMode
+                                    ? _itemWidgetMultiSelection(
+                                        item, snapshot.data?.length ?? 0)
+                                    : _itemWidgetSingleSelection(
+                                        item, snapshot.data?.length ?? 0);
+                              },
+                            ),
                           ),
                         );
                       },
